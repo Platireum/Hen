@@ -49,6 +49,17 @@ The HenDistributor contract is responsible for delivering the fruits of the Stak
 
 ---
 
+| Feature         | HEN                     | USDC/USDT            | DAI                     | TerraUSD (UST)* |
+|-----------------|-------------------------|----------------------|-------------------------|-------------------------|
+| **Peg Mechanism** | Algorithmic + Reserves  | Fiat-backed          | Crypto-backed           | Algorithmic (failed)    |
+| **Yield** | Auto-staking rewards    | None (centralized)   | Requires manual DeFi    | Anchor Protocol (defunct) |
+| **Automation** | Full (auto-claiming)    | N/A                  | Manual                  | Semi-auto (deprecated)  |
+| **Risk Profile**| Medium (smart contracts)| Low (trust in issuer)| Medium (collateralized) | High (proven unstable)  |
+
+_*Included as a cautionary example of algorithmic stablecoin risks._
+
+---
+
 **Vision**
 
 HEN aims to be more than just a stablecoin; it seeks to create a self-sustaining decentralized economy where stability meets passive income generation, simplifying participation in the high-yield opportunities of the crypto space for everyone.
