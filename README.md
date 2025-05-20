@@ -1,4 +1,4 @@
-HEN: The Next-Generation Stablecoin Ecosystem
+**HEN: The Next-Generation Stablecoin Ecosystem**
 
 HEN is an innovative stablecoin designed to maintain a consistent peg to the US Dollar, creating a reliable digital asset for decentralized finance and everyday transactions. Beyond simple price stability, HEN integrates a unique, automated ecosystem that generates passive income for its holders through diversified staking strategies across multiple EVM-compatible blockchains.
 
@@ -48,7 +48,7 @@ The HenDistributor contract is responsible for delivering the fruits of the Stak
 * **Transparency:** All operations are managed by transparent smart contracts on the blockchain.
 
 ---
-Compared to competitors:
+**Compared to competitors:**
 
 | Feature         | HEN                     | USDC/USDT            | DAI                     | TerraUSD (UST)* |
 |-----------------|-------------------------|----------------------|-------------------------|-------------------------|
