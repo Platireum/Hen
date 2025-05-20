@@ -56,7 +56,6 @@ The HenDistributor contract is responsible for delivering the fruits of the Stak
 | **Automation** | Full (auto-claiming)    | N/A                  | Manual                  | Semi-auto (deprecated)  |
 | **Risk Profile**| Medium (smart contracts)| Low (trust in issuer)| Medium (collateralized) | High (proven unstable)  |
 
-_*Included as a cautionary example of algorithmic stablecoin risks._
 
 ---
 
