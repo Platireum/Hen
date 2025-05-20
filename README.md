@@ -48,6 +48,7 @@ The HenDistributor contract is responsible for delivering the fruits of the Stak
 * **Transparency:** All operations are managed by transparent smart contracts on the blockchain.
 
 ---
+Compared to competitors:
 
 | Feature         | HEN                     | USDC/USDT            | DAI                     | TerraUSD (UST)* |
 |-----------------|-------------------------|----------------------|-------------------------|-------------------------|
