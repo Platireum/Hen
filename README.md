@@ -50,12 +50,12 @@ The HenDistributor contract is responsible for delivering the fruits of the Stak
 ---
 **Compared to competitors:**
 
-| Feature         | HEN                     | USDC/USDT            | DAI                     | TerraUSD (UST)* |
-|-----------------|-------------------------|----------------------|-------------------------|-------------------------|
-| **Peg Mechanism** | Algorithmic + Reserves  | Fiat-backed          | Crypto-backed           | Algorithmic (failed)    |
-| **Yield** | Auto-staking rewards    | None (centralized)   | Requires manual DeFi    | Anchor Protocol (defunct) |
-| **Automation** | Full (auto-claiming)    | N/A                  | Manual                  | Semi-auto (deprecated)  |
-| **Risk Profile**| Medium (smart contracts)| Low (trust in issuer)| Medium (collateralized) | High (proven unstable)  |
+| Feature         | HEN                     | USDC/USDT            | DAI                     |
+|-----------------|-------------------------|----------------------|-------------------------|
+| **Peg Mechanism** | Algorithmic + Reserves  | Fiat-backed          | Crypto-backed           |
+| **Yield** | Auto-staking rewards    | None (centralized)   | Requires manual DeFi    |
+| **Automation** | Full (auto-claiming)    | N/A                  | Manual                  |
+| **Risk Profile**| Medium (smart contracts)| Low (trust in issuer)| Medium (collateralized) |
 
 
 ---
