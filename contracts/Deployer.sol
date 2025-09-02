@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "./Platireum.sol";
+import "./Platireum_HEN.sol";
 import "./CollateralPool.sol";
 import "./AutomatedBalancer.sol";
 import "./RewardDistributor.sol";
