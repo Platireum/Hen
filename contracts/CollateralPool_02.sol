@@ -27,6 +27,9 @@ contract CollateralPool is Ownable {
 
     // A mapping to track the amount of each token that has been staked externally.
     mapping(address => uint256) public stakedAmounts;
+    
+    // Address of the RewardDistributor contract
+    address public rewardDistributor;
 
     // Event emitted when new collateral is deposited.
     event CollateralDeposited(address indexed user, address indexed token, uint256 amount);
@@ -36,6 +39,9 @@ contract CollateralPool is Ownable {
     
     // Event emitted when collateral is unstaked.
     event CollateralUnstaked(address indexed token, uint256 amount);
+    
+    // Event emitted when rewards are collected and sent to the distributor.
+    event RewardsSentToDistributor(address indexed token, uint256 amount);
 
     /**
      * @dev Sets the address of the Platireum token.
@@ -43,6 +49,14 @@ contract CollateralPool is Ownable {
      */
     constructor(address _platireum) {
         platireum = Platireum(_platireum);
+    }
+    
+    /**
+     * @dev Sets the address of the RewardDistributor contract.
+     * @param _distributor The address of the RewardDistributor contract.
+     */
+    function setRewardDistributor(address _distributor) public onlyOwner {
+        rewardDistributor = _distributor;
     }
 
     /**
@@ -85,6 +99,7 @@ contract CollateralPool is Ownable {
 
     /**
      * @dev Stakes a portion of the collateral by sending it to a liquid staking protocol.
+     * This function would be called by the AutomatedBalancer.
      * @param tokenAddress The address of the collateral token.
      * @param amount The amount of collateral to stake.
      */
@@ -94,14 +109,18 @@ contract CollateralPool is Ownable {
 
         // Approve and transfer tokens to the staking protocol.
         IERC20(tokenAddress).approve(liquidStakingProtocols[tokenAddress], amount);
-        IERC20(tokenAddress).transfer(liquidStakingProtocols[tokenAddress], amount);
-
+        
+        // The actual staking call to the external protocol would go here.
+        // For example:
+        // IERC20(tokenAddress).transfer(liquidStakingProtocols[tokenAddress], amount);
+        
         stakedAmounts[tokenAddress] += amount;
         emit CollateralStaked(tokenAddress, amount);
     }
 
     /**
      * @dev Unstakes collateral and returns it to the pool.
+     * This function would be called by the AutomatedBalancer.
      * @param tokenAddress The address of the collateral token.
      * @param amount The amount of collateral to unstake.
      */
@@ -109,12 +128,30 @@ contract CollateralPool is Ownable {
         require(liquidStakingProtocols[tokenAddress] != address(0), "No liquid staking protocol set for this token.");
         require(stakedAmounts[tokenAddress] >= amount, "Insufficient staked amount.");
         
-        // Note: The actual unstaking logic would depend on the specific protocol (e.g., calling an `unstake` function).
-        // This is a simplified representation.
+        // The actual unstaking logic would depend on the specific protocol (e.g., calling an `unstake` function).
         // For example: IERC20(liquidStakingToken).transferFrom(stakingProtocol, address(this), amount);
         
         stakedAmounts[tokenAddress] -= amount;
         emit CollateralUnstaked(tokenAddress, amount);
+    }
+    
+    /**
+     * @dev Collects rewards from the liquid staking protocol and sends them to the RewardDistributor.
+     * This function can be called by an external bot or the owner to trigger reward collection.
+     * @param tokenAddress The address of the reward token to collect.
+     */
+    function collectAndSendRewards(address tokenAddress) public onlyOwner {
+        // Here, we would interact with the staking protocol to withdraw rewards.
+        // Example: IERC20(rewardToken).transferFrom(stakingProtocol, address(this), amount);
+        
+        uint256 rewardAmount = IERC20(tokenAddress).balanceOf(address(this));
+        
+        require(rewardAmount > 0, "No rewards to send.");
+        
+        // Send the collected rewards to the distributor contract.
+        IERC20(tokenAddress).transfer(rewardDistributor, rewardAmount);
+        
+        emit RewardsSentToDistributor(tokenAddress, rewardAmount);
     }
 
     /**
