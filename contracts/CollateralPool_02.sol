@@ -22,8 +22,20 @@ contract CollateralPool is Ownable {
     // A mapping to check if a token is supported.
     mapping(address => bool) public isSupported;
 
+    // Mapping to store the address of the liquid staking protocol for each token.
+    mapping(address => address) public liquidStakingProtocols;
+
+    // A mapping to track the amount of each token that has been staked externally.
+    mapping(address => uint256) public stakedAmounts;
+
     // Event emitted when new collateral is deposited.
     event CollateralDeposited(address indexed user, address indexed token, uint256 amount);
+
+    // Event emitted when collateral is staked.
+    event CollateralStaked(address indexed token, uint256 amount);
+    
+    // Event emitted when collateral is unstaked.
+    event CollateralUnstaked(address indexed token, uint256 amount);
 
     /**
      * @dev Sets the address of the Platireum token.
@@ -45,6 +57,17 @@ contract CollateralPool is Ownable {
     }
 
     /**
+     * @dev Sets the address of the liquid staking protocol for a supported token.
+     * Only the owner can call this function.
+     * @param tokenAddress The address of the collateral token.
+     * @param protocolAddress The address of the staking protocol contract.
+     */
+    function setLiquidStakingProtocol(address tokenAddress, address protocolAddress) public onlyOwner {
+        require(isSupported[tokenAddress], "Token is not supported.");
+        liquidStakingProtocols[tokenAddress] = protocolAddress;
+    }
+
+    /**
      * @dev Deposits collateral into the pool.
      * @param tokenAddress The address of the collateral token.
      * @param amount The amount of collateral to deposit.
@@ -60,5 +83,46 @@ contract CollateralPool is Ownable {
         emit CollateralDeposited(msg.sender, tokenAddress, amount);
     }
 
-    // In a future step, we'll add functions to handle staking and balancing.
+    /**
+     * @dev Stakes a portion of the collateral by sending it to a liquid staking protocol.
+     * @param tokenAddress The address of the collateral token.
+     * @param amount The amount of collateral to stake.
+     */
+    function stakeCollateral(address tokenAddress, uint256 amount) public onlyOwner {
+        require(liquidStakingProtocols[tokenAddress] != address(0), "No liquid staking protocol set for this token.");
+        require(totalCollateral[tokenAddress] - stakedAmounts[tokenAddress] >= amount, "Insufficient collateral for staking.");
+
+        // Approve and transfer tokens to the staking protocol.
+        IERC20(tokenAddress).approve(liquidStakingProtocols[tokenAddress], amount);
+        IERC20(tokenAddress).transfer(liquidStakingProtocols[tokenAddress], amount);
+
+        stakedAmounts[tokenAddress] += amount;
+        emit CollateralStaked(tokenAddress, amount);
+    }
+
+    /**
+     * @dev Unstakes collateral and returns it to the pool.
+     * @param tokenAddress The address of the collateral token.
+     * @param amount The amount of collateral to unstake.
+     */
+    function unstakeCollateral(address tokenAddress, uint256 amount) public onlyOwner {
+        require(liquidStakingProtocols[tokenAddress] != address(0), "No liquid staking protocol set for this token.");
+        require(stakedAmounts[tokenAddress] >= amount, "Insufficient staked amount.");
+        
+        // Note: The actual unstaking logic would depend on the specific protocol (e.g., calling an `unstake` function).
+        // This is a simplified representation.
+        // For example: IERC20(liquidStakingToken).transferFrom(stakingProtocol, address(this), amount);
+        
+        stakedAmounts[tokenAddress] -= amount;
+        emit CollateralUnstaked(tokenAddress, amount);
+    }
+
+    /**
+     * @dev Returns the amount of collateral available for balancing (not staked).
+     * @param tokenAddress The address of the collateral token.
+     * @return The amount of available collateral.
+     */
+    function getAvailableCollateral(address tokenAddress) public view returns (uint256) {
+        return totalCollateral[tokenAddress] - stakedAmounts[tokenAddress];
+    }
 }
