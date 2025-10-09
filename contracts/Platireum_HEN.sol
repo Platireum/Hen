@@ -1,3 +1,5 @@
+// * In the Name of Allah, the Most Gracious, the Most Merciful
+// * Peace and blessings be upon the noblest of messengers, our Prophet Muhammad, and upon his family, companions, and all who follow his path until the Day of Judgment.
 // * Important Notice: Terms of Use for Platireum Currency: By receiving this Platireum currency, you irrevocably acknowledge and solemnly pledge your full adherence to the subsequent terms and conditions:
 // * 1- Platireum must not be used for fraud or deception.
 // * 2- Platireum must not be used for lending or borrowing with interest (usury).
